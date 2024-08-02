@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - MyWebApp</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Home" asp-action="About">About</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - MyWebApp</p>
+    </footer>
+</body>
+</html>

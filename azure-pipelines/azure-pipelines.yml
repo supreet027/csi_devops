@@ -1,0 +1,36 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '6.x.x'  # Use appropriate .NET version
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(Build.SourcesDirectory)/src/MyWebApp/MyWebApp.csproj'
+
+- task: VSBuild@1
+  inputs:
+    solution: '**/*.sln'
+    msbuildArgs: '/p:Configuration=$(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    azureSubscription: '<your-azure-subscription>'
+    WebAppName: '<your-web-app-name>'
+    Package: '$(Build.ArtifactStagingDirectory)/drop/*.zip'
